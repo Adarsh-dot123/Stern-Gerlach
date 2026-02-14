@@ -1,0 +1,90 @@
+html, body {
+  margin: 0;
+  background: black;
+  overflow: hidden;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+canvas {
+  display: block;
+}
+
+/* LEFT UI */
+
+#ui {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  background: rgba(0,0,0,0.8);
+  padding: 14px;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+label {
+  font-size: 14px;
+}
+
+select, button {
+  background: #222;
+  color: white;
+  border: 1px solid #555;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+button {
+  background: #1e90ff;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4aa3ff;
+}
+
+/* BOTTOM GRAPH */
+
+#graphBox {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 40px;
+  align-items: flex-end;
+  color: white;
+}
+
+.barContainer {
+  width: 60px;
+  height: 140px;
+  border: 1px solid #555;
+  display: flex;
+  align-items: flex-end;
+}
+
+#upBar {
+  width: 100%;
+  background: cyan;
+  height: 0%;
+}
+
+#downBar {
+  width: 100%;
+  background: magenta;
+  height: 0%;
+}
+
+.graphLabels {
+  position: absolute;
+  bottom: -25px;
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+  left: -20px;
+  font-size: 14px;
+}

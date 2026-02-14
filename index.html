@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Stern–Gerlach 2D Simulator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<div id="ui">
+
+  <label>Magnet Axis:</label>
+  <select id="axis">
+    <option value="x">X</option>
+    <option value="y">Y</option>
+    <option value="z" selected>Z</option>
+  </select>
+
+  <button id="fireOne">Fire Particle</button>
+  <button id="fireMany">Fire 50 Particles</button>
+  <button id="reset">Reset</button>
+
+  <div id="stats">
+    <div>UP: <span id="upCount">0</span></div>
+    <div>DOWN: <span id="downCount">0</span></div>
+  </div>
+
+</div>
+
+<!-- Bottom Graph -->
+<div id="graphBox">
+  <div class="barContainer">
+    <div id="upBar"></div>
+  </div>
+  <div class="barContainer">
+    <div id="downBar"></div>
+  </div>
+  <div class="graphLabels">
+    <span>Spin Up</span>
+    <span>Spin Down</span>
+  </div>
+</div>
+
+<canvas id="canvas"></canvas>
+
+<script src="main.js"></script>
+</body>
+</html>
