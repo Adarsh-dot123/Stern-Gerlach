@@ -9,6 +9,8 @@ const collimatorX = 250;
 const magnetX = canvas.width / 2;
 const screenX = canvas.width - 150;
 
+const detectorHeight = 8000;
+
 let particles = [];
 let upCount = 0;
 let downCount = 0;
@@ -34,21 +36,19 @@ function updateStats(){
 
 function measureSpin(p, axis){
 
-  // If already aligned with axis, keep same state
   if(p.axis === axis) return p.state;
 
-  const diff = upCount - downCount;
+  const total = upCount + downCount;
 
-  // If difference already +1, force down
-  if(diff >= 1) return "down";
+  if(total % 2 === 0){
+    return upCount <= downCount ? "up" : "down";
+  }
 
-  // If difference already -1, force up
-  if(diff <= -1) return "up";
+  if(upCount > downCount) return "down";
+  if(downCount > upCount) return "up";
 
-  // Otherwise choose randomly
   return Math.random() < 0.5 ? "up" : "down";
 }
-
 
 /* ---------------- */
 
@@ -61,6 +61,7 @@ function createParticle(){
     axis: "z",
     state: Math.random() < 0.5 ? "up" : "down",
     measured: false,
+    counted: false,
     trail: []
   };
 }
@@ -119,8 +120,14 @@ function drawMagnet(){
 
 function drawScreen(){
   ctx.fillStyle = "green";
-  ctx.fillRect(screenX, canvas.height/2 - 170, 20, 340);
-  label("Detector", screenX - 30, canvas.height/2 - 190);
+  ctx.fillRect(
+    screenX,
+    canvas.height/2 - detectorHeight/2,
+    22,
+    detectorHeight
+  );
+
+  label("Detector", screenX - 35, canvas.height/2 - detectorHeight/2 - 15);
 }
 
 /* ---------------- */
@@ -152,22 +159,24 @@ function animate(){
     p.x += p.vx;
     p.y += p.vy;
 
+    /* Measure at magnet */
     if(p.x > magnetX && !p.measured){
-
       const result = measureSpin(p, axis);
 
       p.axis = axis;
       p.state = result;
       p.measured = true;
 
-      if(result === "up"){
-        p.vy = -2;
-        upCount++;
-      } else {
-        p.vy = 2;
-        downCount++;
-      }
+      if(result === "up") p.vy = -2;
+      else p.vy = 2;
+    }
 
+    /* Count at detector */
+    if(p.x > screenX && !p.counted){
+      if(p.state === "up") upCount++;
+      else downCount++;
+
+      p.counted = true;
       updateStats();
     }
 
